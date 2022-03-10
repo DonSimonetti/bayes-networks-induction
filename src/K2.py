@@ -7,7 +7,7 @@ def g_function(node, parents, case_set):  # TODO
     return prob
 
 
-def K2(nodes_array, order_array, max_parents, cases_database):
+def K2(nodes_array, order_array, max_parents, cases_database):  # TODO
 
     for i in order_array:
         node = nodes_array[order_array[i]]
