@@ -1,7 +1,7 @@
 import pickle
 
 
-def get_data_in_column(dataset, columns):
+def get_data_in_columns(dataset, columns):
     print("Selecting",columns)
     result_list = []
 
@@ -27,7 +27,7 @@ deserialized_set = pickle.loads(serialized_str)
 for i in deserialized_set:
     print(i)
 
-_columns = get_data_in_column(deserialized_set, ['HISTORY', 'CVP', 'PCWP', 'BP'])
+_columns = get_data_in_columns(deserialized_set, ['HISTORY', 'CVP', 'PCWP', 'BP'])
 
 
 #print(_columns)
