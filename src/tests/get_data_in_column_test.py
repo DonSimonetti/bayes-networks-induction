@@ -1,7 +1,7 @@
 import pickle
 
 
-def get_data_in_columns(dataset, columns):
+def get_distinct_data_in_columns(dataset, columns):
     print("Selecting",columns)
     result_list = []
 
@@ -15,7 +15,8 @@ def get_data_in_columns(dataset, columns):
         vec = []
         for index in columns_indexes:
             vec.append(dataset[i][index])
-        result_list.append(vec)
+        if vec not in result_list:
+            result_list.append(vec)
 
     return result_list
 
@@ -24,12 +25,13 @@ _dataset = open("10_samples_dataset.obj", "rb")
 serialized_str = _dataset.read()
 _dataset.close()
 deserialized_set = pickle.loads(serialized_str)
-for i in deserialized_set:
-    print(i)
+#for i in deserialized_set:
+    #print(i)
 
-_columns = get_data_in_columns(deserialized_set, ['HISTORY', 'CVP', 'PCWP', 'BP'])
+_columns = get_distinct_data_in_columns(deserialized_set, ['HISTORY', 'CVP', 'PCWP', 'BP'])
 
 
 #print(_columns)
-#for j in _columns:
-    #print(j)
+for j in _columns:
+    print(j)
+
