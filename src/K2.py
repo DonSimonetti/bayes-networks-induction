@@ -41,6 +41,7 @@ def g_function(node, parents, case_set):  # TODO
     parents_instances_size = 0  # I.E. the q_i
     if len(parents) == 0:
         # return algebraic multiplicity of its distribution image
+        values_vec = get_data_in_column(case_set, node.var_name)
         return
     else:
         parents_instances = get_distinct_data_in_columns(case_set, parents)  # the w_i
