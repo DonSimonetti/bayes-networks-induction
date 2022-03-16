@@ -1,8 +1,20 @@
 from node import Node
 
 
+def get_data_in_column(dataset, column):
+    print("Selecting", column)
+    result_list = []
+
+    column_index = dataset[0].index(column)
+
+    for i in range(1, len(dataset)):
+        result_list.append(dataset[i][column_index])
+
+    return result_list
+
+
 def get_distinct_data_in_columns(dataset, columns):
-    print("Selecting",columns)
+    print("Selecting", columns)
     result_list = []
 
     columns_indexes = []
@@ -23,7 +35,7 @@ def get_distinct_data_in_columns(dataset, columns):
 
 def g_function(node, parents, case_set):  # TODO
 
-    # TODO get the number of possible values for node (i.e. r_i)
+    r_i = node.var_domain_size  # get the number of possible values for node (i.e. r_i)
 
     parents_instances = []  # I.E. the w_i, all the instances of 'parents' in the dataset
     parents_instances_size = 0  # I.E. the q_i
