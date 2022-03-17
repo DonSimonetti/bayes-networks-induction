@@ -58,8 +58,6 @@ node_i.var_domain_size = len(node_i.var_domain)  # maybe this is useless. I'll r
 node_i.parents = ['HISTORY', 'HYPOVOLEMIA']
 parents_i_distinct_occurrences = []
 
-filter_node = samples[node_i.var_name] == 0
-
 print("v_i =", node_i.var_domain, "=> r_i =", len(node_i.var_domain))
 print("pi_i =", node_i.parents)
 
