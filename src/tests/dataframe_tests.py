@@ -1,3 +1,5 @@
+import math
+
 import bnlearn
 from src import node
 
@@ -73,7 +75,7 @@ for i in samples.filter(items=node_i.parents + [node_i.var_name]).values.tolist(
 
 for j in parents_i_distinct_occurrences:
     print("for j =", j)
-    N_ij = 0
+    N_ijk = []
     for k in node_i.var_domain:
         print("\tcalculating N_ij set where '" + node_i.var_name + "' =", k, "( more precisely N_ijk where k =", k, ")")
         pi_i_instances = samples.filter(items=node_i.parents) \
@@ -85,8 +87,12 @@ for j in parents_i_distinct_occurrences:
                 i[_j] = int(i[_j])
         #
 
-        print("\t", pi_i_instances, "=>", pi_i_instances.count(j))
-        N_ij += pi_i_instances.count(j)
-    print("N_ij =", N_ij)
+        print("\t", pi_i_instances)
+        N_ijk.append(pi_i_instances.count(j))
 
-# now for each possible k value of node_i calculate N_ijk, his factorial, and multiply them
+    # now we have N_ijk for each possible k value of node_i
+    # now calculate their factorials, and multiply them
+    print("N_ijk =", N_ijk, "=> N_ij =", sum(N_ijk))
+    print("N_ijk! =", [math.factorial(i) for i in N_ijk], "=>", math.prod([math.factorial(i) for i in N_ijk]))
+
+
