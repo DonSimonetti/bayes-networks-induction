@@ -13,7 +13,7 @@ def get_data_in_column(dataset, column):
     return result_list
 
 
-def get_distinct_data_in_columns(dataset, columns):
+def get_distinct_data_in_columns(dataset, columns):  #TODO DELETE
     print("Selecting", columns)
     result_list = []
 
@@ -33,21 +33,27 @@ def get_distinct_data_in_columns(dataset, columns):
     return result_list
 
 
-def g_function(node, parents, case_set):  # TODO
+#  'cases_df' is a pandas DataFrame
 
-    r_i = node.var_domain_size  # get the number of possible values for node (i.e. r_i)
+def g_function(node_i, parents, cases_df):  # TODO
+
+    r_i = node_i.var_domain_size  # get the number of possible values for node (i.e. r_i)
 
     parents_instances = []  # I.E. the w_i, all the instances of 'parents' in the dataset
     parents_instances_size = 0  # I.E. the q_i
     if len(parents) == 0:
-        # return algebraic multiplicity of its distribution image
-        values_vec = get_data_in_column(case_set, node.var_name)
+        values_vec = get_data_in_column(cases_df, node_i.var_name)
+        occurrences = []
+        for i in node_i.var_domain:  # NOTE: each 'i' should be an integer
+            occurrences.append(values_vec.count(i))
         return
     else:
-        parents_instances = get_distinct_data_in_columns(case_set, parents)  # the w_i
+        parents_instances = get_distinct_data_in_columns(cases_df, parents)  # the w_i
         parents_instances_size = len(parents_instances)  # the q_i
 
-    # here all the calculation
+    # TODO find the Nijk
+
+    # here all the calculations
     result = 0.0
     for j in range(parents_instances_size):  # the q_i loop
         # TODO calculate result = (r_i - 1)!/(Nij + r_i - 1)!
