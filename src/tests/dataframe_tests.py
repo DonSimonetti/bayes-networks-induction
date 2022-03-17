@@ -92,5 +92,3 @@ for j in parents_i_distinct_occurrences:
     # now calculate their factorials, and multiply them
     print("N_ijk =", N_ijk, "=> N_ij =", sum(N_ijk))
     print("N_ijk! =", [math.factorial(i) for i in N_ijk], "=>", math.prod([math.factorial(i) for i in N_ijk]))
-
-

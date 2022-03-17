@@ -1,4 +1,6 @@
-from node import Node
+import math
+
+from src.node import Node
 
 
 def get_data_in_column(dataset, column):
@@ -13,7 +15,7 @@ def get_data_in_column(dataset, column):
     return result_list
 
 
-def get_distinct_data_in_columns(dataset, columns):  #TODO DELETE
+def DELETED_get_distinct_data_in_columns(dataset, columns):  #TODO DELETE
     print("Selecting", columns)
     result_list = []
 
@@ -33,33 +35,54 @@ def get_distinct_data_in_columns(dataset, columns):  #TODO DELETE
     return result_list
 
 
-#  'cases_df' is a pandas DataFrame
+#  'node_i'     is a Node from node.py
+#  'cases_df'   is a pandas DataFrame
 
 def g_function(node_i, parents, cases_df):  # TODO
 
-    r_i = node_i.var_domain_size  # get the number of possible values for node (i.e. r_i)
+    print("v_i =", node_i.var_domain, "=> r_i =", len(node_i.var_domain))
+    print("pi_i =", parents)
 
-    parents_instances = []  # I.E. the w_i, all the instances of 'parents' in the dataset
-    parents_instances_size = 0  # I.E. the q_i
-    if len(parents) == 0:
-        values_vec = get_data_in_column(cases_df, node_i.var_name)
-        occurrences = []
-        for i in node_i.var_domain:  # NOTE: each 'i' should be an integer
-            occurrences.append(values_vec.count(i))
-        return
-    else:
-        parents_instances = get_distinct_data_in_columns(cases_df, parents)  # the w_i
-        parents_instances_size = len(parents_instances)  # the q_i
+    parents_i_distinct_occurrences = []
+    for i in cases_df.filter(items=parents).values.tolist():
+        if i not in parents_i_distinct_occurrences:
+            parents_i_distinct_occurrences.append(i)
 
-    # TODO find the Nijk
+    print("W_i =", parents_i_distinct_occurrences, "=> q_i =", len(parents_i_distinct_occurrences))
+
+    print("selecting the columns", parents, ", ['" + node_i.var_name + "']")
+    for i in cases_df.filter(items=parents + [node_i.var_name]).values.tolist():
+        print(i)
+
+    for j in parents_i_distinct_occurrences:
+        print("for j =", j)
+        N_ijk = []
+        for k in node_i.var_domain:
+            print("\tcalculating N_ij set where '" + node_i.var_name + "' =", k, "( more precisely N_ijk where k =", k,")")
+            pi_i_instances = cases_df.filter(items=parents) \
+                .where(cases_df[node_i.var_name] == k).copy().dropna().values.tolist()
+
+            # re-cast to int
+            for i in pi_i_instances:
+                for _j in range(len(i)):
+                    i[_j] = int(i[_j])
+            #
+
+            print("\t", pi_i_instances)
+            N_ijk.append(pi_i_instances.count(j))
+
+        # now we have N_ijk for each possible k value of node_i
+        # now calculate their factorials, and multiply them
+        print("N_ijk =", N_ijk, "=> N_ij =", sum(N_ijk))
+        print("N_ijk! =", [math.factorial(i) for i in N_ijk], "=>", math.prod([math.factorial(i) for i in N_ijk]))
 
     # here all the calculations
     result = 0.0
-    for j in range(parents_instances_size):  # the q_i loop
-        # TODO calculate result = (r_i - 1)!/(Nij + r_i - 1)!
-        # for k in range(r_i):
-        # TODO calculate result *= Nijk
-        print(j)
+    # for j in range(parents_instances_size):  # the q_i loop
+    #     # TODO calculate result = (r_i - 1)!/(Nij + r_i - 1)!
+    #     # for k in range(r_i):
+    #     # TODO calculate result *= Nijk
+    #     print(j)
 
     return result
 
