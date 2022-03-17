@@ -69,19 +69,16 @@ for i in samples.filter(items=parents_i_names).values.tolist():
 
 print("W_i =", parents_i_distinct_occurrences, "=> q_i =", len(parents_i_distinct_occurrences))
 
-print("selecting the columns 'HISTORY', 'HYPOVOLEMIA', 'CO'")
-for i in samples.filter(items=['HISTORY', 'HYPOVOLEMIA', 'CO']).values.tolist():
+print("selecting the columns", parents_i_names, ", ['"+node_i_name+"']")
+for i in samples.filter(items=parents_i_names+[node_i_name]).values.tolist():
     print(i)
-
-N_i = [0 for i in range(len(parents_i_distinct_occurrences))]
-# print("Instanced N_i =", N_i)
 
 for j in parents_i_distinct_occurrences:
     print("for j =", j)
     N_ij = 0
     for k in node_i_possible_values:
         print("\tcalculating N_ij set where 'CO' =", k, "( more precisely N_ijk where k =", k, ")")
-        pi_i_instances = samples.filter(items=['HISTORY', 'HYPOVOLEMIA'])\
+        pi_i_instances = samples.filter(items=parents_i_names) \
             .where(samples['CO'] == k).copy().dropna().values.tolist()
 
         # re-cast to int
@@ -93,22 +90,5 @@ for j in parents_i_distinct_occurrences:
         print("\t", pi_i_instances, "=>", pi_i_instances.count(j))
         N_ij += pi_i_instances.count(j)
     print("N_ij =", N_ij)
-
-# for k in node_i_possible_values:
-#     print("calculating N_ij set where 'CO' =", k, "(more precisely N_ijk where k =", k, ")")
-#     N_ijk = []
-#     pi_i_instances = samples.filter(items=['HISTORY', 'HYPOVOLEMIA']).where(
-#         samples['CO'] == k).copy().dropna().values.tolist()
-#
-#     # re-cast to int
-#     for i in pi_i_instances:
-#         for j in range(len(i)):
-#             i[j] = int(i[j])
-#     #
-#
-#     print(pi_i_instances)
-#
-#     for vec in parents_i_distinct_occurrences:
-#         print(pi_i_instances.count(vec))
 
 # now for each possible k value of node_i calculate N_ijk, his factorial, and multiply them
