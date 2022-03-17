@@ -13,9 +13,3 @@ def factorial(value):
         generate_factorials(value)
     return cached_values[value]
 
-# Test
-generate_factorials(11)
-
-print(cached_values)
-print("min calculated value:", len(cached_values) - 1)
-print(factorial(40))
