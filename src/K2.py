@@ -7,7 +7,7 @@ from src.myFactorial import factorial
 #  'node_i'     is a Node from node.py
 #  'cases_df'   is a pandas DataFrame
 
-def g_function(node_i, parents, cases_df):  # TODO
+def g_function(node_i, parents, cases_df):  # FIXME need testing
 
     print("v_i =", node_i.var_domain, "=> r_i =", len(node_i.var_domain))
     print("pi_i =", parents)
@@ -19,8 +19,8 @@ def g_function(node_i, parents, cases_df):  # TODO
 
     print("W_i =", parents_i_distinct_occurrences, "=> q_i =", len(parents_i_distinct_occurrences))
 
-    print("selecting the columns", parents, ", ['" + node_i.var_name + "']")
-    for i in cases_df.filter(items=parents + [node_i.var_name]).values.tolist():
+    print("selecting the columns", parents, ", {'" + node_i.var_name + "'}")
+    for i in cases_df.filter(items=parents.union([node_i.var_name])).values.tolist():
         print(i)
 
     N_ij = [0 for j in range(len(parents_i_distinct_occurrences))]
@@ -63,23 +63,39 @@ def g_function(node_i, parents, cases_df):  # TODO
     return result
 
 
-def k_2_procedure(nodes_array, order_array, max_parents, cases_database):  # TODO
+def find_node_that_maximise_g(nodes_set, parents_set, cases_set):  # FIXME need testing
+    # find node_z in nodes_set (i.e. 'nodes_array[i].parents - pi')
+    # such that maximise g_function(node_z, pi+[node_z])
+
+    max_g = 0
+    max_g_var_name = ""
+    for i in nodes_set:
+        tmp = g_function(i, parents_set.union([i]), cases_set)
+        if tmp > max_g:
+            max_g = tmp
+            max_g_var_name = i.var_name
+
+    node = Node()
+    node.var_name = max_g_var_name
+    return node
+
+
+def k_2_procedure(nodes_array, order_array, max_parents, cases_set):  # FIXME need testing
 
     for i in order_array:
         node = nodes_array[order_array[i]]
-        pi = []
+        pi = set()
 
-        old_prob = g_function(node, pi, cases_database)
+        old_prob = g_function(node, pi, cases_set)
 
         should_exit = False
         while (not should_exit) and (len(pi) < max_parents):
-            Z = Node()
-            # TODO find node Z in 'nodes_array[i].parents \ pi' such that maximise g_function(Z,pi)
+            node_z = find_node_that_maximise_g(nodes_array[i].parents - pi, pi, cases_set)
 
-            new_prob = g_function(node, pi.copy().append(Z), cases_database)
+            new_prob = g_function(node, pi.union(node_z.parents), cases_set)
             if new_prob > old_prob:
                 old_prob = new_prob
-                pi.append(Z)
+                pi.add(node_z)
             else:
                 should_exit = True
         node.parents = pi  # "write node and its parents"
