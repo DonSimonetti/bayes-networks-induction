@@ -3,6 +3,7 @@ import math
 from src.node import Node
 from src.myFactorial import factorial
 
+
 #  'node_i'     is a Node from node.py
 #  'cases_df'   is a pandas DataFrame
 
@@ -62,7 +63,7 @@ def g_function(node_i, parents, cases_df):  # TODO
     return result
 
 
-def K2(nodes_array, order_array, max_parents, cases_database):  # TODO
+def k_2_procedure(nodes_array, order_array, max_parents, cases_database):  # TODO
 
     for i in order_array:
         node = nodes_array[order_array[i]]
