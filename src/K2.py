@@ -80,7 +80,7 @@ def find_node_that_maximise_g(nodes_set, parents_set, cases_set):  # FIXME need 
     return node
 
 
-def k_2_procedure(nodes_array, order_array, max_parents, cases_set):  # FIXME need testing
+def k2_procedure(nodes_array, order_array, max_parents, cases_set):  # FIXME need testing
 
     for i in order_array:
         node = nodes_array[order_array[i]]
