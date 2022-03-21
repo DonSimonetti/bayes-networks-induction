@@ -5,6 +5,7 @@ import pickle
 from node import Node
 from K2 import k2_procedure
 from graphviz import Digraph
+import random
 
 if len(sys.argv) != 2:
     print("SYNTAX ERROR: Usage: python bayes_induction.py [DATASET_CSV_FILE]", file=sys.stderr)
@@ -28,6 +29,7 @@ assert len(nodes_dict) == 37
 # provide an 'order_array'
 # i'll take the order given by 'dataset_df'
 order_array = [list(nodes_dict.keys())[i] for i in range(0, len(nodes_dict))]
+random.shuffle(order_array)
 
 # find appropriate 'max_parents'
 # reading from 'https://www.bnlearn.com/bnrepository/discrete-medium.html'
@@ -35,13 +37,14 @@ order_array = [list(nodes_dict.keys())[i] for i in range(0, len(nodes_dict))]
 max_parents = 4
 
 # FIXME run k2_procedure(nodes_dict, order_array, max_parents, dataset_df)
-# new_nodes_dict = k2_procedure(nodes_dict, order_array, max_parents, dataset_df)
+new_nodes_dict = k2_procedure(nodes_dict, order_array, max_parents, dataset_df)
 
 # TODO build and plot the resulting DAG
-final_dag = Digraph()
-for node in nodes_dict:
+final_dag = Digraph(filename="k2_result")
+for node in new_nodes_dict:
     final_dag.node(node)
-    final_dag.edge(node,'BP')
 
+    for parent in nodes_dict[node].parents:
+        final_dag.edge(node,parent)
 
 final_dag.render(view=True)
