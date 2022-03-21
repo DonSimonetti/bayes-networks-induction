@@ -26,5 +26,6 @@ output_file.close()
 
 input_file = open("variables_constraints.obj","rb")
 data = pickle.load(input_file)
+input_file.close()
 
 assert (data == variables)
