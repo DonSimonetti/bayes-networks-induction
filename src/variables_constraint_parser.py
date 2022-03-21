@@ -14,11 +14,11 @@ for i in lines_list:
     lines_list[lines_list.index(i)] = re.sub(r"[=][\[][0-5][\]]", "", i).replace("}", "").replace("{", "=")
 lines_list.remove("")
 
-variables = []
+variables = {}
 for i in lines_list:
     _str = i.split("=")
     _str[1] = _str[1].split(",")
-    variables.append(_str)
+    variables[_str[0]] = _str[1]
 
 output_file = open("variables_constraints.obj","wb")
 pickle.dump(variables,output_file)
