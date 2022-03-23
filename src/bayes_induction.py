@@ -3,6 +3,7 @@ import sys
 import pandas
 import pickle
 from node import Node
+import global_vars
 from K2 import k2_procedure
 from graphviz import Digraph
 import random
@@ -27,9 +28,8 @@ for i in dataset_df.columns:
 assert len(nodes_dict) == 37
 
 # provide an 'order_array'
-# i'll take the order given by 'dataset_df'
-order_array = [list(nodes_dict.keys())[i] for i in range(0, len(nodes_dict))]
-random.shuffle(order_array)
+# I'll take the order I manually generated
+order_array = global_vars.order_array
 
 # find appropriate 'max_parents'
 # reading from 'https://www.bnlearn.com/bnrepository/discrete-medium.html'
