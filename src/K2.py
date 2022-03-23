@@ -109,8 +109,10 @@ def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set) -> 
             if node_z == 0:
                 break
 
-            tmp_parents = pi.union(node_z.parents)
-            new_prob = g_function(node, tmp_parents , cases_set)
+            tmp_parents = pi.copy()
+            tmp_parents.add(node_z)
+            new_prob = g_function(node, tmp_parents, cases_set)
+
             if new_prob > old_prob:
                 old_prob = new_prob
                 pi.add(node_z)
