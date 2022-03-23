@@ -1,7 +1,8 @@
 import math
 
 from src.node import Node
-from src.myFactorial import factorial
+#from src.myFactorial import factorial
+import numpy
 
 
 #  'node_i'     is a Node from node.py
@@ -56,8 +57,12 @@ def g_function(node_i: Node, parents, cases_df):  # FIXME need testing
     # here all the calculations
     result = 1
     for j in range(len(parents_i_distinct_occurrences)):  # the q_i loop
-        tmp = factorial(len(node_i.var_domain) - 1) / factorial(N_ij[j] + len(node_i.var_domain) - 1)
-        tmp *= PT_j[j]
+        tmp1 = numpy.math.factorial(len(node_i.var_domain) - 1)
+        tmp2 = numpy.math.factorial(N_ij[j] + len(node_i.var_domain) - 1)
+
+        tmp = tmp1 * PT_j[j]
+        tmp /= tmp2
+
         result *= tmp
 
     return result
@@ -80,7 +85,7 @@ def find_node_that_maximise_g(nodes_set: set, parents_set, cases_set):  # FIXME 
     return max_g_node
 
 
-def predecessors(node: Node, nodes_dict: dict, nodes_order) -> set:  # TODO
+def predecessors(node: Node, nodes_dict: dict, nodes_order) -> set:
 
     pred = set()
     for i in nodes_order:
