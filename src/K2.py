@@ -100,7 +100,7 @@ def predecessors(node: Node, nodes_dict: dict, nodes_order) -> set:
 
 def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set) -> dict:  # FIXME need testing
 
-    for node_name in nodes_dict:
+    for node_name in order_array:
         node = nodes_dict[node_name]
         print("k2 on node", node.var_name)
         pi = set()
@@ -109,9 +109,10 @@ def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set) -> 
 
         should_exit = False
         while (not should_exit) and (len(pi) < max_parents):
-            preds = predecessors(node, nodes_dict, order_array)
-            node_z = find_node_that_maximise_g(preds - pi, pi, cases_set)  # TODO
-            if node_z == 0:
+            preds = predecessors(node, nodes_dict, order_array)  # OK
+            preds_minus_pi = preds - pi
+            node_z = find_node_that_maximise_g(preds_minus_pi, pi, cases_set)  # FIXME
+            if node_z == 0:  # what if 'preds - pi' is empty' ??
                 break
 
             tmp_parents = pi.copy()
