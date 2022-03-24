@@ -1,5 +1,7 @@
 import math
 
+import pandas
+
 from src.node import Node
 #from src.myFactorial import factorial
 import numpy
@@ -8,13 +10,16 @@ import numpy
 #  'node_i'     is a Node from node.py
 #  'cases_df'   is a pandas DataFrame
 
-def g_function(node_i: Node, parents, cases_df):  # FIXME need testing
+def g_function(node_i: Node, parents: set, cases_df: pandas.DataFrame) -> float:  # FIXME need testing
 
     # print("v_i =", node_i.var_domain, "=> r_i =", len(node_i.var_domain))
     # print("pi_i =", parents)
 
+    is_parents_empty = len(parents) == 0
+
     parents_i_distinct_occurrences = []
-    for i in cases_df.filter(items=parents).values.tolist():
+    filtered_list = cases_df.filter(items=parents).values.tolist()
+    for i in filtered_list:
         if i not in parents_i_distinct_occurrences:
             parents_i_distinct_occurrences.append(i)
 
@@ -98,7 +103,8 @@ def predecessors(node: Node, nodes_dict: dict, nodes_order) -> set:
     return pred
 
 
-def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set) -> dict:  # FIXME need testing
+# FIXME no parents are being found
+def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set) -> dict:
 
     for node_name in order_array:
         node = nodes_dict[node_name]
@@ -109,11 +115,12 @@ def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set) -> 
 
         should_exit = False
         while (not should_exit) and (len(pi) < max_parents):
+
             preds = predecessors(node, nodes_dict, order_array)  # OK
             preds_minus_pi = preds - pi
             node_z = find_node_that_maximise_g(preds_minus_pi, pi, cases_set)  # FIXME
             if node_z == 0:  # what if 'preds - pi' is empty' ??
-                break
+                continue
 
             tmp_parents = pi.copy()
             tmp_parents.add(node_z)
