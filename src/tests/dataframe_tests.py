@@ -51,32 +51,29 @@ samples = bnlearn.sampling(bn, 10)
 
 print("putting all together..")
 
-node_i = node.Node()
-node_i.var_name = 'CO'
-node_i.var_domain = bn['model'].states[node_i.var_name]
-node_i.var_domain_size = len(node_i.var_domain)  # maybe this is useless. I'll remove it when I'll be sure
-node_i.parents = ['HISTORY', 'HYPOVOLEMIA']
+node_i = node.Node('CO', bn['model'].states['CO'])
+parents = ['HISTORY', 'HYPOVOLEMIA']
 parents_i_distinct_occurrences = []
 
 print("v_i =", node_i.var_domain, "=> r_i =", len(node_i.var_domain))
-print("pi_i =", node_i.parents)
+print("pi_i =", parents)
 
-for i in samples.filter(items=node_i.parents).values.tolist():
+print("selecting the columns", parents, ", ['" + node_i.var_name + "']")
+for i in samples.filter(items=parents + [node_i.var_name]).values.tolist():
+    print(i)
+
+for i in samples.filter(items=parents).values.tolist():
     if i not in parents_i_distinct_occurrences:
         parents_i_distinct_occurrences.append(i)
 
 print("W_i =", parents_i_distinct_occurrences, "=> q_i =", len(parents_i_distinct_occurrences))
-
-print("selecting the columns", node_i.parents, ", ['" + node_i.var_name + "']")
-for i in samples.filter(items=node_i.parents + [node_i.var_name]).values.tolist():
-    print(i)
 
 for j in parents_i_distinct_occurrences:
     print("for j =", j)
     N_ijk = []
     for k in node_i.var_domain:
         print("\tcalculating N_ij set where '" + node_i.var_name + "' =", k, "( more precisely N_ijk where k =", k, ")")
-        pi_i_instances = samples.filter(items=node_i.parents) \
+        pi_i_instances = samples.filter(items=parents) \
             .where(samples[node_i.var_name] == k).copy().dropna().values.tolist()
 
         # re-cast to int

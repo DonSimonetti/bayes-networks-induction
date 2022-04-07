@@ -1,5 +1,5 @@
 import bnlearn
-from src.K2 import g_function
+from src.gFunction import g_function
 from src.node import Node
 
 bn = bnlearn.import_DAG('../../alarm.bif')

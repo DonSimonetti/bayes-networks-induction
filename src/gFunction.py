@@ -3,12 +3,56 @@ import numpy
 
 import pandas
 
-from node import Node
+from src.node import Node
 
 
 #  'node_i'     is a Node from node.py
 #  'cases_df'   is a pandas DataFrame
-def g_function(node_i: Node, parents: set, cases_df: pandas.DataFrame) -> float:  # FIXME need testing
+def g_function(node_i: Node, parents: set, cases_df: pandas.DataFrame) -> float:  # TODO
+
+    # calculate node_values_distribution
+    node_values_distribution = [0 for i in node_i.var_domain]
+    cases = cases_df[node_i.var_name].tolist()
+    for value in cases:
+        node_values_distribution[value] += 1  # this is the vector of the N_ij when the node has no parents
+
+    # calculate r_i
+    r_i = len(node_i.var_domain)
+
+    # calculate q_i
+    parents_i_distinct_occurrences = []
+    for row in cases_df.filter(items=parents).values.tolist():
+        if row not in parents_i_distinct_occurrences:
+            parents_i_distinct_occurrences.append(row)
+    q_i = len(parents_i_distinct_occurrences)
+
+    # calculate N_ij
+    if len(parents) == 0:
+        N_ij = node_values_distribution
+    else:
+        N_ij = [[] for i in parents_i_distinct_occurrences]
+
+        for pi in parents_i_distinct_occurrences:
+            count = [0 for i in node_i.var_domain]
+            for k in node_i.var_domain:
+                pi_i_instances = cases_df.filter(items=parents).where(cases_df[node_i.var_name] == k).copy() \
+                    .dropna().values.tolist()
+
+                # re-cast to int
+                for i in pi_i_instances:
+                    for _j in range(len(i)):
+                        i[_j] = int(i[_j])
+                #
+
+                count[k] = pi_i_instances.count(pi)
+            N_ij[parents_i_distinct_occurrences.index(pi)] = count
+
+    # calculate N_ij
+    # N_ij = sum(N_ij)
+    return
+
+
+def old_g_function(node_i: Node, parents: set, cases_df: pandas.DataFrame) -> float:  # FIXME need testing
 
     # print("v_i =", node_i.var_domain, "=> r_i =", len(node_i.var_domain))
     # print("pi_i =", parents)
