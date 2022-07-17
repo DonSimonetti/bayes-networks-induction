@@ -19,30 +19,26 @@ def g_function(node_i: Node, parents: set, cases_df: pandas.DataFrame) -> float:
     # calculate r_i
     r_i = len(node_i.var_domain)
 
-    # calculate q_i
-    parents_i_distinct_occurrences = []
-    for row in cases_df.filter(items=parents).values.tolist():
-        if row not in parents_i_distinct_occurrences:
-            parents_i_distinct_occurrences.append(row)
-    q_i = len(parents_i_distinct_occurrences)
+    # calculate w_ij and q_i
+    w_i = []
+    parents_cases = cases_df.filter(items=parents).values.tolist()
+    for row in parents_cases:
+        if row not in w_i:
+            w_i.append(row)
+    q_i = len(w_i)
 
-    # calculate N_ij
-    if len(parents) == 0:
-        N_ij = node_values_distribution
-    else:
-        N_ij = [[] for i in parents_i_distinct_occurrences]
+    # calculate N_i matrix
+    columns = [node_i.var_name]
+    columns.extend(parents)
+    pippo = cases_df.filter(items=columns)
 
-        for pi in parents_i_distinct_occurrences:
-            count = [0 for i in node_i.var_domain]
-            for k in node_i.var_domain:
-                pi_i_instances = cases_df.filter(items=parents).where(cases_df[node_i.var_name] == k).copy() \
-                    .dropna().values.tolist()
-
-                # re-cast to int
-                for i in pi_i_instances:
-                    for _j in range(len(i)):
-                        i[_j] = int(i[_j])
-                #
+    N_i = [[0 for j in w_i] for k in node_i.var_domain]
+    for k in node_i.var_domain:
+        for w_ij in w_i:
+            pluto = pippo.where(pippo[node_i.var_name] == k)
+            pluto.where(pippo[parents] == w_ij, inplace=True)
+            pluto.dropna(inplace=True)
+            N_i[k][w_i.index(w_ij)] = len(pluto.index)
 
                 count[k] = pi_i_instances.count(pi)
             N_ij[parents_i_distinct_occurrences.index(pi)] = count
