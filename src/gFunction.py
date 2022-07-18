@@ -8,6 +8,7 @@ from math import factorial
 
 
 #  'node_i'     is a Node from node.py
+#  'parents'    is a set of variables' names (basically strings)
 #  'cases_df'   is a pandas DataFrame
 def g_function(node_i: Node, parents: set, cases_df: pandas.DataFrame) -> float:
 
