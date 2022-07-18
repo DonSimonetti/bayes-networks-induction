@@ -4,7 +4,6 @@ import pandas
 
 from src.node import Node
 from gFunction import g_function
-# from src.myFactorial import factorial
 import numpy
 
 
@@ -29,11 +28,9 @@ def predecessors(node: Node, nodes_dict: dict, nodes_order) -> set:
 
     pred = set()
     for i in nodes_order:
-        if i != node.var_name:
-            # print(i)
-            pred.add(nodes_dict[i])
-        else:
+        if i == node.var_name:
             break
+        pred.add(nodes_dict[i])
 
     return pred
 
