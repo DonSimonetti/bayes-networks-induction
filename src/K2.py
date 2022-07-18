@@ -15,7 +15,7 @@ def find_node_that_maximise_g(nodes_set: set, parents_set: set, cases_set: panda
     max_g_node = 0
     for i in nodes_set:
         tmp_set = parents_set.copy()
-        tmp_set.add(i)
+        tmp_set.add(i.var_name)
         tmp = g_function(i, tmp_set, cases_set)
         if tmp > max_g:
             max_g = tmp
@@ -38,9 +38,9 @@ def predecessors(node: Node, nodes_dict: dict, nodes_order) -> set:
 # FIXME no parents are being found
 def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set) -> dict:
 
-    for node_name in order_array:
+    for node_name in nodes_dict:
         node = nodes_dict[node_name]
-        print("k2 on node", node.var_name)
+        print("k2 on node", node)
         pi = set()
 
         old_prob = g_function(node, pi.copy(), cases_set)
