@@ -4,6 +4,7 @@ import numpy
 import pandas
 
 from src.node import Node
+from math import factorial
 
 
 #  'node_i'     is a Node from node.py
@@ -57,10 +58,10 @@ def g_function(node_i: Node, parents: set, cases_df: pandas.DataFrame) -> float:
 
         factorials_prod = 1
         for i in range(r_i):
-            factorials_prod *= math.factorial(N_i[i][j])
+            factorials_prod *= factorial(N_i[i][j])
 
-        tmp1 = math.factorial(r_i - 1)
-        tmp2 = math.factorial(N_ij + r_i - 1)
+        tmp1 = factorial(r_i - 1)
+        tmp2 = factorial(N_ij + r_i - 1)
         g_value *= tmp1 * factorials_prod / tmp2
         j += 1
     return g_value
