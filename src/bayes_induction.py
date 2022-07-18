@@ -45,6 +45,6 @@ for node in new_nodes_dict:
     final_dag.node(node)
 
     for parent in nodes_dict[node].parents:
-        final_dag.edge(node,parent)
+        final_dag.edge(node, parent)
 
 final_dag.render(view=True)

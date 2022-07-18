@@ -40,13 +40,18 @@ def g_function(node_i: Node, parents: set, cases_df: pandas.DataFrame) -> float:
             pluto.dropna(inplace=True)
             N_i[k][w_i.index(w_ij)] = len(pluto.index)
 
-                count[k] = pi_i_instances.count(pi)
-            N_ij[parents_i_distinct_occurrences.index(pi)] = count
+    # calculate g_function value
+    g_value = 1
+    for j in range(q_i):
+        N_ij = 0
+        for i in range(r_i):
+            N_ij += N_i[i][j]
 
-    # calculate N_ij
-    # N_ij = sum(N_ij)
-    return
+        factorials_prod = 1
+        for i in range(r_i):
+            factorials_prod *= math.factorial(N_i[i][j])
 
-
-        g_value *= (math.factorial(r_i-1)/math.factorial(N_ij + r_i - 1))*factorials_prod
+        tmp1 = math.factorial(r_i-1)
+        tmp2 = math.factorial(N_ij + r_i - 1)
+        g_value *= tmp1*factorials_prod/tmp2
     return g_value
