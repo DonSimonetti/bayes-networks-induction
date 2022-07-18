@@ -9,7 +9,7 @@ from math import factorial
 
 #  'node_i'     is a Node from node.py
 #  'cases_df'   is a pandas DataFrame
-def g_function(node_i: Node, parents: set, cases_df: pandas.DataFrame) -> float:  # TODO
+def g_function(node_i: Node, parents: set, cases_df: pandas.DataFrame) -> float:
 
     # calculate node_values_distribution
     node_values_distribution = [0 for i in node_i.var_domain]
@@ -40,7 +40,7 @@ def g_function(node_i: Node, parents: set, cases_df: pandas.DataFrame) -> float:
             pluto = pippo.where(pippo[node_i.var_name] == k)
             for w_ij in w_i:
                 if q_i != 0:
-                    pluto.where(pippo[parents] == w_ij, inplace=True)
+                    pluto.where(pippo[list(parents)] == w_ij, inplace=True)
                 pluto.dropna(inplace=True)
                 N_i[k][w_i.index(w_ij)] = len(pluto.index)
     else:
