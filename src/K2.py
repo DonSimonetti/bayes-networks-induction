@@ -38,8 +38,8 @@ def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set) -> 
         pi = set()
         old_prob = g_function(node, pi, cases_set)
 
-        should_exit = False
-        while (not should_exit) and (len(pi) < max_parents):
+        ok_to_proceed = True
+        while ok_to_proceed and len(pi) < max_parents:
 
             [node_z, g_value] = get_node_that_maximises_g(node, pi, nodes_dict, order_array, cases_set)
 
@@ -51,7 +51,7 @@ def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set) -> 
                 old_prob = new_prob
                 pi.add(node_z.var_name)
             else:
-                should_exit = True
+                ok_to_proceed = False
         node.parents = pi  # "write node and its parents"
 
     return nodes_dict
