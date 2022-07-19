@@ -1,10 +1,7 @@
-import math
-import numpy
-
 import pandas
 
 from src.node import Node
-from math import factorial
+from myFactorial import factorial
 
 
 #  'node_i'     is a Node from node.py
