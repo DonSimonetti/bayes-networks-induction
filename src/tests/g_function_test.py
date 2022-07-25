@@ -2,7 +2,7 @@ import bnlearn
 from src.gFunction import g_function
 from src.node import Node
 
-bn = bnlearn.import_DAG('../../alarm.bif')
+bn = bnlearn.import_DAG('alarm')
 samples = bnlearn.sampling(bn, 10)
 
 node_i = Node('CO', bn['model'].states['CO'])

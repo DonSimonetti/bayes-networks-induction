@@ -1,6 +1,6 @@
 import bnlearn as bn
 
-true_model = bn.import_DAG("asia")
+true_model = bn.import_DAG("alarm")
 
 dataset = bn.sampling(true_model, 10000)
 learned_model = bn.structure_learning.fit(dataset, scoretype='k2')

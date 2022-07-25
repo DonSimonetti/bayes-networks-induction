@@ -3,7 +3,7 @@ import math
 import bnlearn
 from src import node
 
-bn = bnlearn.import_DAG('../../alarm.bif')
+bn = bnlearn.import_DAG('alarm')
 samples = bnlearn.sampling(bn, 10)
 
 # for i in samples.filter(items=['CO', 'BP', 'VENTALV']).values.tolist():
