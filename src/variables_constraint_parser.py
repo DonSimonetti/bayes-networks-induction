@@ -20,11 +20,11 @@ for i in lines_list:
     _str[1] = _str[1].split(",")
     variables[_str[0]] = _str[1]
 
-output_file = open("variables_constraints.obj","wb")
-pickle.dump(variables,output_file)
+output_file = open("variables_constraints.obj", "wb")
+pickle.dump(variables, output_file)
 output_file.close()
 
-input_file = open("variables_constraints.obj","rb")
+input_file = open("variables_constraints.obj", "rb")
 data = pickle.load(input_file)
 input_file.close()
 
