@@ -36,7 +36,7 @@ order_array = global_vars.order_array
 # we can see that the maximum in-degree of the target network is 4. So..
 max_parents = 4
 
-# FIXME run k2_procedure(nodes_dict, order_array, max_parents, dataset_df)
+# FIXME resulting DAG is not even close to the original
 new_nodes_dict = k2_procedure(nodes_dict, order_array, max_parents, dataset_df)
 
 # TODO build and plot the resulting DAG

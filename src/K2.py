@@ -31,7 +31,7 @@ def predecessors(node: Node, nodes_dict: dict, nodes_order) -> set:
 
 
 def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set) -> dict:
-    for node_name in nodes_dict:
+    for node_name in order_array:
         node = nodes_dict[node_name]
         print("k2 on node", node_name)
 
