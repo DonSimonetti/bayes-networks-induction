@@ -40,7 +40,7 @@ max_parents = 4
 new_nodes_dict = k2_procedure(nodes_dict, order_array, max_parents, dataset_df)
 
 # TODO build and plot the resulting DAG
-final_dag = Digraph(filename="k2_result")
+final_dag = Digraph(filename="k2_result", engine="neato")
 for node in new_nodes_dict:
     final_dag.node(node)
 
