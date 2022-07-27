@@ -1,7 +1,11 @@
 import sys
 
+import graphviz
 import pandas
 import pickle
+
+import pydot
+
 from node import Node
 import global_vars
 from K2 import k2_procedure
@@ -39,12 +43,12 @@ max_parents = 4
 # FIXME resulting DAG is not even close to the original
 new_nodes_dict = k2_procedure(nodes_dict, order_array, max_parents, dataset_df)
 
-# TODO build and plot the resulting DAG
-final_dag = Digraph(filename="k2_result", engine="neato")
+dag_sources = graphviz.Source.from_file(filename="k2_mockup.gv", engine="neato").source
+resulting_graph = pydot.graph_from_dot_data(dag_sources)[0]
+
 for node in new_nodes_dict:
-    final_dag.node(node)
-
     for parent in nodes_dict[node].parents:
-        final_dag.edge(parent, node)
+        edge = pydot.Edge(parent, node)
+        resulting_graph.add_edge(edge)
 
-final_dag.render(view=True)
+resulting_graph.write("k2_result.pdf", format='pdf', prog='neato')
