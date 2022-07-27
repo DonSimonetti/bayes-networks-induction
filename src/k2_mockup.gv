@@ -33,7 +33,7 @@ digraph {
 	VENTMACH [pos="5,3!"]
 	DISCONNECT [pos="2,3!"]
 	CATECHOL [pos="0,-2!"]
-	INSUFFANESTH [pos="5,-2!"]
+	INSUFFANESTH [pos="5,-1.5!"]
 	CO [pos="-2,-4!"]
 	BP [pos="-4,-5!"]
 }
