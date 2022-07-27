@@ -3,14 +3,10 @@ import sys
 import graphviz
 import pandas
 import pickle
-
 import pydot
-
 from node import Node
 import global_vars
 from K2 import k2_procedure
-from graphviz import Digraph
-import random
 
 if len(sys.argv) != 2:
     print("SYNTAX ERROR: Usage: python bayes_induction.py [DATASET_CSV_FILE]", file=sys.stderr)
