@@ -32,6 +32,8 @@ def predecessors(node: Node, nodes_dict: dict, nodes_order) -> set:
 
 def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set) -> dict:
     for node_name in order_array:
+        if node_name != "CATECHOL":
+            continue
         node = nodes_dict[node_name]
         print("k2 on node", node_name)
 
@@ -39,12 +41,10 @@ def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set) -> 
         old_prob = g_function(node, pi, cases_set)
 
         ok_to_proceed = True
-        while ok_to_proceed and len(pi) < max_parents:
+        while ok_to_proceed: # and len(pi) < max_parents:
 
-            [node_z, g_value] = get_node_that_maximises_g(node, pi, nodes_dict, order_array, cases_set)
+            node_z, g_value = get_node_that_maximises_g(node, pi, nodes_dict, order_array, cases_set)
 
-            tmp_parents = pi.copy()
-            tmp_parents.add(node_z)
             new_prob = g_value
 
             if new_prob > old_prob:
