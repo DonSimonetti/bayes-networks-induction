@@ -5,7 +5,6 @@ import pandas
 import pickle
 import pydot
 from node import Node
-import global_vars
 from K2 import k2_procedure
 
 if len(sys.argv) != 2:
@@ -14,7 +13,7 @@ if len(sys.argv) != 2:
 
 dataset_df = pandas.read_csv(sys.argv[1])
 
-# read the dataframe, instantiate every node and put them in 'nodes_array'
+# read the dataframe, instantiate every node and put them in 'nodes_dict'
 nodes_dict = {}
 vars_file = open("variables_constraints.obj", "rb")
 vars_constraints = pickle.load(vars_file)
@@ -29,7 +28,7 @@ assert len(nodes_dict) == 37
 
 # provide an 'order_array'
 # I'll take the order I manually generated
-order_array = global_vars.order_array
+from global_vars import order_array
 
 # find appropriate 'max_parents'
 # reading from 'https://www.bnlearn.com/bnrepository/discrete-medium.html'
