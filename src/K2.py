@@ -5,18 +5,17 @@ from gFunction import g_function
 import numpy
 
 
-def get_node_that_maximises_g(node: Node, parents_set: set, nodes_dict: dict, nodes_order, cases_set: pandas.DataFrame):
-    predecessors_of_node = predecessors(node, nodes_dict, nodes_order)
-    predecessors_of_node = predecessors_of_node - parents_set
-
+# nodes_set should be 'pred(node) - pi'
+def get_node_that_maximises_g(node: Node, nodes_set, parents_set: set, cases_set: pandas.DataFrame):
     max_g_node = None
     max_g_value = 0
-    for node_z in predecessors_of_node:
+
+    for node_z in nodes_set:
         value = g_function(node, parents_set.union({node_z.var_name}), cases_set)
         if value > max_g_value:
             max_g_value = value
             max_g_node = node_z
-
+        #print(node_z.var_name, value)
     return max_g_node, max_g_value
 
 
@@ -26,26 +25,28 @@ def predecessors(node: Node, nodes_dict: dict, nodes_order) -> set:
         if i == node.var_name:
             break
         pred.add(nodes_dict[i])
-
     return pred
 
 
-def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set) -> dict:
+def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set: pandas.DataFrame) -> dict:
     for node_name in order_array:
+        ##
         if node_name != "CATECHOL":
             continue
         node = nodes_dict[node_name]
         print("k2 on node", node_name)
+        ##
 
         pi = set()
         old_prob = g_function(node, pi, cases_set)
+        print("old_prob =", old_prob)
 
         ok_to_proceed = True
-        while ok_to_proceed: # and len(pi) < max_parents:
+        while ok_to_proceed:  # and len(pi) < max_parents:
 
-            node_z, g_value = get_node_that_maximises_g(node, pi, nodes_dict, order_array, cases_set)
-
-            new_prob = g_value
+            pred_minus_pi = predecessors(node, nodes_dict, order_array) - pi
+            node_z, new_prob = get_node_that_maximises_g(node, pred_minus_pi, pi, cases_set)
+            print(pi, new_prob)
 
             if new_prob > old_prob:
                 old_prob = new_prob

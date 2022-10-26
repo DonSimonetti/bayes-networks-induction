@@ -9,14 +9,14 @@ from myFactorial import factorial
 #  'cases_df'   is a pandas DataFrame
 def g_function(node_i: Node, parents: set, cases_df: pandas.DataFrame) -> float:
 
+    # calculate r_i
+    r_i = len(node_i.var_domain)
+
     # calculate node_values_distribution
     node_values_distribution = [0 for i in node_i.var_domain]
     cases = cases_df[node_i.var_name].tolist()
-    for value in cases:
-        node_values_distribution[value] += 1  # this is the vector of the N_ij when the node has no parents
-
-    # calculate r_i
-    r_i = len(node_i.var_domain)
+    for val in range(r_i):
+        node_values_distribution[val] = cases.count(val)  # this is the vector of the N_ij when the node has no parents
 
     # calculate w_ij and q_i
     w_i = []
@@ -56,7 +56,7 @@ def g_function(node_i: Node, parents: set, cases_df: pandas.DataFrame) -> float:
 
         factorials_prod = 1
         for i in range(r_i):
-            factorials_prod *= factorial(N_i[i][j])
+            factorials_prod *= factorial(N_i[i][j]) #FIXME number too big
 
         tmp1 = factorial(r_i - 1)
         tmp2 = factorial(N_ij + r_i - 1)
