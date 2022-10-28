@@ -1,65 +1,52 @@
+import decimal
+
 import pandas
 
 from src.node import Node
-from myFactorial import factorial
+from math import factorial
 
 
 #  'node_i'     is a Node from node.py
 #  'parents'    is a set of variables' names (basically strings)
 #  'cases_df'   is a pandas DataFrame
-def g_function(node_i: Node, parents: set, cases_df: pandas.DataFrame) -> float:
+def g_function(node_i: Node, p_i: set, cases_df: pandas.DataFrame) -> float:
+
+    p_i_cases = cases_df.filter(items=p_i).values.tolist()
 
     # calculate r_i
     r_i = len(node_i.var_domain)
 
-    # calculate node_values_distribution
-    node_values_distribution = [0 for i in node_i.var_domain]
-    cases = cases_df[node_i.var_name].tolist()
-    for val in range(r_i):
-        node_values_distribution[val] = cases.count(val)  # this is the vector of the N_ij when the node has no parents
-
-    # calculate w_ij and q_i
-    w_i = []
-    if len(parents) != 0:
-        parents_cases = cases_df.filter(items=parents).values.tolist()
-        for row in parents_cases:
-            if row not in w_i:
-                w_i.append(row)
+    # calculate w_i and q_i by removing duplicates from p_i_cases
+    w_i = list(set(tuple(i) for i in p_i_cases))
     q_i = len(w_i)
 
     # calculate N_i matrix
     columns = [node_i.var_name]
-    columns.extend(parents)
+    columns.extend(p_i)
     pippo = cases_df.filter(items=columns)
 
-    if q_i != 0:
-        N_i = [[0 for j in w_i] for k in node_i.var_domain]
+    N_i = [[0 for j in node_i.var_domain] for k in range(q_i)]
+
+    for j in range(q_i):
         for k in node_i.var_domain:
             pluto = pippo.where(pippo[node_i.var_name] == k)
-            for w_ij in w_i:
-                if q_i != 0:
-                    pluto.where(pippo[list(parents)] == w_ij, inplace=True)
-                pluto.dropna(inplace=True)
-                N_i[k][w_i.index(w_ij)] = len(pluto.index)
-    else:
-        N_i = []
-        for k in node_i.var_domain:
-            N_i.append([len(pippo.where(pippo[node_i.var_name] == k).dropna())])
+            if len(p_i) != 0:
+                pluto.where(pippo[list(p_i)] == w_i[j], inplace=True)
+            N_i[j][k] = pluto.dropna().count()[0]
 
     # calculate g_function value
-    g_value = 1
-    j = 0
-    while j == 0 or j < q_i:
+    g_value = decimal.Decimal(1)
+    for j in range(q_i):
         N_ij = 0
         for i in range(r_i):
-            N_ij += N_i[i][j]
+            N_ij += N_i[j][i]
 
-        factorials_prod = 1
+        factorials_prod = decimal.Decimal(1)
         for i in range(r_i):
-            factorials_prod *= factorial(N_i[i][j]) #FIXME number too big
+            factorials_prod *= factorial(N_i[j][i]) #FIXME number too big
 
-        tmp1 = factorial(r_i - 1)
-        tmp2 = factorial(N_ij + r_i - 1)
-        g_value *= tmp1 * factorials_prod / tmp2
-        j += 1
+        tmp1 = decimal.Decimal(factorial(r_i - 1))
+        tmp2 = decimal.Decimal(factorial(N_ij + r_i - 1))
+        tmp3 = factorials_prod / tmp2
+        g_value *= tmp1 * tmp3
     return g_value
