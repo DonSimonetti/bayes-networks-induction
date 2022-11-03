@@ -2,10 +2,10 @@ import sys
 
 import graphviz
 import pandas
-import pickle
 import pydot
 from node import Node
 from K2 import k2_procedure
+from variables_constraint_parser import get_var_domains
 
 if len(sys.argv) != 2:
     print("SYNTAX ERROR: Usage: python bayes_induction.py [DATASET_CSV_FILE]", file=sys.stderr)
@@ -15,9 +15,7 @@ dataset_df = pandas.read_csv(sys.argv[1])
 
 # read the dataframe, instantiate every node and put them in 'nodes_dict'
 nodes_dict = {}
-vars_file = open("variables_constraints.obj", "rb")
-vars_domains = pickle.load(vars_file)
-vars_file.close()
+vars_domains = get_var_domains()
 
 for i in dataset_df.columns:
     to_numbers = [vars_domains[i].index(j) for j in vars_domains[i]]
