@@ -1,4 +1,5 @@
 import decimal
+from decimal import Decimal
 
 import pandas
 
@@ -9,7 +10,7 @@ from math import factorial
 #  'node_i'     is a Node from node.py
 #  'parents'    is a set of variables' names (basically strings)
 #  'cases_df'   is a pandas DataFrame
-def g_function(node_i: Node, p_i: set, cases_df: pandas.DataFrame) -> float:
+def g_function(node_i: Node, p_i: set, cases_df: pandas.DataFrame) -> Decimal:
 
     # calculate r_i
     r_i = len(node_i.var_domain)
@@ -44,7 +45,7 @@ def g_function(node_i: Node, p_i: set, cases_df: pandas.DataFrame) -> float:
 
         factorials_prod = decimal.Decimal(1)
         for i in range(r_i):
-            factorials_prod *= factorial(N_i[j][i]) #FIXME number too big
+            factorials_prod *= factorial(N_i[j][i])
 
         tmp1 = decimal.Decimal(factorial(r_i - 1))
         tmp2 = decimal.Decimal(factorial(N_ij + r_i - 1))

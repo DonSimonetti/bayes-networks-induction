@@ -35,7 +35,6 @@ from global_vars import order_array
 # we can see that the maximum in-degree of the target network is 4. So..
 max_parents = 4
 
-# FIXME resulting DAG is not even close to the original
 new_nodes_dict = k2_procedure(nodes_dict, order_array, max_parents, dataset_df)
 
 dag_sources = graphviz.Source.from_file(filename="k2_mockup.gv", engine="neato").source
