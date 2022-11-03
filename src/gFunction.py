@@ -11,35 +11,36 @@ from math import factorial
 #  'cases_df'   is a pandas DataFrame
 def g_function(node_i: Node, p_i: set, cases_df: pandas.DataFrame) -> float:
 
-    p_i_cases = cases_df.filter(items=p_i).values.tolist()
-
     # calculate r_i
     r_i = len(node_i.var_domain)
 
-    # calculate w_i and q_i by removing duplicates from p_i_cases
-    w_i = list(set(tuple(i) for i in p_i_cases))
+    # calculate w_i and q_i by removing duplicates from p_i cases
+    if len(p_i) == 0:
+        w_i = [[]]
+    else:
+        w_i = cases_df.filter(items=p_i).drop_duplicates(ignore_index=True).values.tolist()
     q_i = len(w_i)
 
     # calculate N_i matrix
     columns = [node_i.var_name]
     columns.extend(p_i)
-    pippo = cases_df.filter(items=columns)
+    temp = cases_df.filter(items=columns)
 
     N_i = [[0 for j in node_i.var_domain] for k in range(q_i)]
 
     for j in range(q_i):
         for k in node_i.var_domain:
-            pluto = pippo.where(pippo[node_i.var_name] == k)
+            pluto = temp.where(temp[node_i.var_name] == k)
             if len(p_i) != 0:
-                pluto.where(pippo[list(p_i)] == w_i[j], inplace=True)
+                pluto.where(temp[list(p_i)] == w_i[j], inplace=True)
             N_i[j][k] = pluto.dropna().count()[0]
+
+    # The code above is "correct" (tested many times)
 
     # calculate g_function value
     g_value = decimal.Decimal(1)
     for j in range(q_i):
-        N_ij = 0
-        for i in range(r_i):
-            N_ij += N_i[j][i]
+        N_ij = sum(N_i[j])
 
         factorials_prod = decimal.Decimal(1)
         for i in range(r_i):
