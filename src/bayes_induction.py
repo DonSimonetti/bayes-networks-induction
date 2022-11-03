@@ -16,11 +16,11 @@ dataset_df = pandas.read_csv(sys.argv[1])
 # read the dataframe, instantiate every node and put them in 'nodes_dict'
 nodes_dict = {}
 vars_file = open("variables_constraints.obj", "rb")
-vars_constraints = pickle.load(vars_file)
+vars_domains = pickle.load(vars_file)
 vars_file.close()
 
 for i in dataset_df.columns:
-    to_numbers = [vars_constraints[i].index(j) for j in vars_constraints[i]]
+    to_numbers = [vars_domains[i].index(j) for j in vars_domains[i]]
     node = Node(i, to_numbers)
     nodes_dict[i] = node
 
