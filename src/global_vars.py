@@ -8,4 +8,4 @@ order_array = ['LVFAILURE', 'HYPOVOLEMIA', 'ERRLOWOUTPUT', 'ERRCAUTER', 'ANAPHYL
                 'PULMEMBOLUS', 'KINKEDTUBE', 'MINVOLSET', 'DISCONNECT', 'INSUFFANESTH', 'HISTORY', 'LVEDVOLUME',
                 'STROKEVOLUME', 'TPR', 'PAP', 'SHUNT', 'VENTMACH', 'CVP', 'PCWP', 'VENTTUBE', 'PRESS', 'VENTLUNG',
                 'MINVOL', 'VENTALV', 'PVSAT', 'ARTCO2', 'SAO2', 'EXPCO2', 'CATECHOL', 'HR', 'HRBP', 'HREKG', 'HRSAT',
-                'C0', 'BP']
+                'CO', 'BP']
