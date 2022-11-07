@@ -28,10 +28,12 @@ def predecessors(node: Node, nodes_dict: dict, nodes_order) -> set:
 
 
 def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set: pandas.DataFrame) -> dict:
+    iteration = 1
     for node_name in order_array:
         ##
         node = nodes_dict[node_name]
-        print("k2 on node", node_name)
+        print("[", iteration, "] K2 on node", node_name)
+        iteration += 1
         ##
 
         pi = set()
