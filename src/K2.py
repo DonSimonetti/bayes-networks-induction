@@ -1,6 +1,6 @@
 import pandas
 
-from src.node import Node
+from node import Node
 from gFunction import g_function
 import numpy
 

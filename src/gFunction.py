@@ -3,7 +3,7 @@ from decimal import Decimal
 
 import pandas
 
-from src.node import Node
+from node import Node
 from math import factorial
 
 
