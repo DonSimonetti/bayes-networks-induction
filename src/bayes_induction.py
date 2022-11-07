@@ -12,6 +12,7 @@ if len(sys.argv) != 2:
     exit(1)
 
 dataset_df = pandas.read_csv(sys.argv[1])
+size = len(dataset_df)
 
 # read the dataframe, instantiate every node and put them in 'nodes_dict'
 nodes_dict = {}
@@ -43,4 +44,4 @@ for node in new_nodes_dict:
         edge = pydot.Edge(parent, node)
         resulting_graph.add_edge(edge)
 
-resulting_graph.write("k2_result.pdf", format='pdf', prog='neato')
+resulting_graph.write("k2_result_"+size.__str__()+".pdf", format='pdf', prog='neato')
