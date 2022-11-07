@@ -1,4 +1,5 @@
 import sys
+import time
 
 import graphviz
 import pandas
@@ -34,7 +35,9 @@ from global_vars import order_array
 # we can see that the maximum in-degree of the target network is 4. So..
 max_parents = 4
 
+start_time = time.time()
 new_nodes_dict = k2_procedure(nodes_dict, order_array, max_parents, dataset_df)
+print("Elapsed time:", time.time() - start_time)
 
 dag_sources = graphviz.Source.from_file(filename="k2_mockup.gv", engine="neato").source
 resulting_graph = pydot.graph_from_dot_data(dag_sources)[0]
@@ -44,4 +47,4 @@ for node in new_nodes_dict:
         edge = pydot.Edge(parent, node)
         resulting_graph.add_edge(edge)
 
-resulting_graph.write("k2_result_"+size.__str__()+".svg", format='svg', prog='neato')
+resulting_graph.write("k2_result_" + size.__str__() + ".svg", format='svg', prog='neato')
