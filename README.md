@@ -1,7 +1,7 @@
 
 # Apprendimento di rete bayesiana da un dataset
 ### Moduli
-- [bayes_induction.py](src/bayes_induction.py): è il modulo principale che lancia l'esecuzione di K2 (Cooper & Herskovits, 1992) e renderizza il risultato nel file *k2_result_N.pdf* dove 'N' è la grandezza del dataset. Deve ricevere come input la posizione del file CSV da cui leggere il dataset.
+- [bayes_induction.py](src/bayes_induction.py): è il modulo principale che lancia l'esecuzione di K2 (Cooper & Herskovits, 1992) e renderizza il risultato nel file *k2_result_N.svg* dove 'N' è la grandezza del dataset. Deve ricevere come input la posizione del file CSV da cui leggere il dataset.
 
   Esempio di riga di comando:
   ```
