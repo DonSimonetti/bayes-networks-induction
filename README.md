@@ -23,3 +23,5 @@
 - [node.py](src/node.py): fornisce una implementazione molto basilare della classe nodo.
 - [global_vars.py](src/global_vars.py): contiene due ordinamenti possibili utilizzati da ```K2.k2_procedure()```.
 - [variables_constraint_parser.py](src/variables_constraint_parser.py): contiene la funzione che estrapola il dominio dei valori di ogni variabile dal file   *alarm_variables_constraints.txt*
+
+Per semplificare tutto ho inserito lo script bash ```run_all_datasets.sh``` che esegue K2 su datasets di grandezze diverse
