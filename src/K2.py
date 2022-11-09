@@ -1,8 +1,7 @@
 import pandas
 
-from node import Node
 from gFunction import g_function
-import numpy
+from node import Node
 
 
 # nodes_set should be 'pred(node) - pi'
