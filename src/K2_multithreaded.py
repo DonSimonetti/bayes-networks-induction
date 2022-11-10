@@ -1,4 +1,4 @@
-import threading
+import multiprocessing
 
 import pandas
 
@@ -31,8 +31,8 @@ def predecessors(node: Node, nodes_dict: dict, nodes_order) -> set:
 def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set: pandas.DataFrame) -> dict:
     k2_threads = []
     for node_name in order_array:
-        thrd = threading.Thread(target=k2_on_node,
-                                args=(cases_set, max_parents, nodes_dict[node_name], nodes_dict, order_array))
+        thrd = multiprocessing.Process(target=k2_on_node,
+                                       args=(cases_set, max_parents, nodes_dict[node_name], nodes_dict, order_array))
         k2_threads.append(thrd)
         thrd.start()
 
@@ -40,7 +40,7 @@ def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set: pan
     return nodes_dict
 
 
-_lock = threading.Lock()
+_lock = multiprocessing.Lock()
 
 
 def k2_on_node(cases_set, max_parents, node, nodes_dict, order_array):
@@ -60,4 +60,5 @@ def k2_on_node(cases_set, max_parents, node, nodes_dict, order_array):
     node.parents = pi  # "write node and its parents"
 
     with _lock:
-        print("K2 on node", node.var_name, "done", flush=True)
+        print("K2 on node", node.var_name, "done")
+
