@@ -5,7 +5,7 @@ import graphviz
 import pandas
 import pydot
 from node import Node
-from K2 import k2_procedure
+from K2_multithreaded import k2_procedure
 from variables_constraint_parser import get_var_domains
 
 if len(sys.argv) != 2:
