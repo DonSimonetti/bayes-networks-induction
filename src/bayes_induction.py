@@ -48,3 +48,4 @@ for node in new_nodes_dict:
         resulting_graph.add_edge(edge)
 
 resulting_graph.write("k2_result_" + size.__str__() + ".svg", format='svg', prog='neato')
+resulting_graph.write("k2_result_" + size.__str__() + ".gv", format='gv', prog='neato')
