@@ -40,7 +40,7 @@ def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set: pan
     return nodes_dict
 
 
-lock = threading.Lock()
+_lock = threading.Lock()
 
 
 def k2_on_node(cases_set, max_parents, node, nodes_dict, order_array):
@@ -59,5 +59,5 @@ def k2_on_node(cases_set, max_parents, node, nodes_dict, order_array):
             ok_to_proceed = False
     node.parents = pi  # "write node and its parents"
 
-    with lock:
+    with _lock:
         print("K2 on node", node.var_name, "done", flush=True)
