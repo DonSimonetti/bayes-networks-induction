@@ -25,3 +25,6 @@
 - [variables_constraint_parser.py](src/variables_constraint_parser.py): contiene la funzione che estrapola il dominio dei valori di ogni variabile dal file   *alarm_variables_constraints.txt*
 
 Per semplificare il tutto ho anche inserito lo script bash ```run_all_datasets.sh``` che esegue K2 su datasets di grandezze diverse predefinite.
+
+È disponibile anche una versione multiprocess del test scaricabile dal branch [multithreading](https://github.com/DonSimonetti/bayes-networks-induction/tree/multithreading).\
+**ATTENZIONE: utilizzo intenso di CPU!** Non ci sono controlli sul numero di processi che vengono spawnati. Non mi assumo nessuna responsabilità per eventuali processori fusi.
