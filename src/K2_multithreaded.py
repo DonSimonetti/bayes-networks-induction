@@ -3,6 +3,7 @@ import multiprocessing
 import pandas
 
 from gFunction import g_function
+from multiprocessing import Process, Manager
 from node import Node
 
 
@@ -30,35 +31,37 @@ def predecessors(node: Node, nodes_dict: dict, nodes_order) -> set:
 
 def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set: pandas.DataFrame) -> dict:
     k2_threads = []
+    managed_nodes_dict = Manager().dict(nodes_dict)
     for node_name in order_array:
-        thrd = multiprocessing.Process(target=k2_on_node,
-                                       args=(cases_set, max_parents, nodes_dict[node_name], nodes_dict, order_array))
+        final_pi = Manager().list()
+        thrd = Process(target=k2_on_node, args=(cases_set, max_parents, node_name, managed_nodes_dict, order_array))
         k2_threads.append(thrd)
         thrd.start()
 
     [thrd.join() for thrd in k2_threads]
-    return nodes_dict
+    return dict(managed_nodes_dict)
 
 
-_lock = multiprocessing.Lock()
+_print_lock = multiprocessing.Lock()
+_iteration_counter = Manager().Value(value=0, typecode=int)
 
 
-def k2_on_node(cases_set, max_parents, node, nodes_dict, order_array):
+def k2_on_node(cases_set, max_parents, node_name: str, nodes_dict, order_array):
     pi = set()
-    old_prob = g_function(node, pi, cases_set)
+    old_prob = g_function(nodes_dict[node_name], pi, cases_set)
     ok_to_proceed = True
     while ok_to_proceed and len(pi) < max_parents:
 
-        pred_minus_pi = predecessors(node, nodes_dict, order_array) - pi
-        node_z, new_prob = get_node_that_maximises_g(node, pred_minus_pi, pi, cases_set)
+        pred_minus_pi = predecessors(nodes_dict[node_name], nodes_dict, order_array) - pi
+        node_z, new_prob = get_node_that_maximises_g(nodes_dict[node_name], pred_minus_pi, pi, cases_set)
 
         if new_prob > old_prob:
             old_prob = new_prob
             pi.add(node_z.var_name)
         else:
             ok_to_proceed = False
-    node.parents = pi  # "write node and its parents"
+    nodes_dict[node_name].parents = pi  # "write node and its parents"
 
-    with _lock:
-        print("K2 on node", node.var_name, "done")
-
+    with _print_lock:
+        _iteration_counter.set(_iteration_counter.get() + 1)
+        print("[", _iteration_counter.get(), "] K2 on node", node_name, "done")
