@@ -33,13 +33,12 @@ def k2_procedure(nodes_dict: dict, order_array, max_parents: int, cases_set: pan
     k2_threads = []
     managed_nodes_dict = Manager().dict(nodes_dict)
     for node_name in order_array:
-        final_pi = Manager().list()
         thrd = Process(target=k2_on_node, args=(cases_set, max_parents, node_name, managed_nodes_dict, order_array))
         k2_threads.append(thrd)
         thrd.start()
 
     [thrd.join() for thrd in k2_threads]
-    return dict(managed_nodes_dict)
+    return managed_nodes_dict
 
 
 _print_lock = multiprocessing.Lock()
@@ -60,7 +59,12 @@ def k2_on_node(cases_set, max_parents, node_name: str, nodes_dict, order_array):
             pi.add(node_z.var_name)
         else:
             ok_to_proceed = False
-    nodes_dict[node_name].parents = pi  # "write node and its parents"
+
+    # "write node and its parents"
+    new_node = Node(node_name, nodes_dict[node_name].var_domain)
+    new_node.parents = pi
+    nodes_dict[node_name] = new_node
+    ###
 
     with _print_lock:
         _iteration_counter.set(_iteration_counter.get() + 1)
