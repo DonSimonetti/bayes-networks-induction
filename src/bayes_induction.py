@@ -43,7 +43,7 @@ dag_sources = graphviz.Source.from_file(filename="k2_mockup.gv", engine="neato")
 resulting_graph = pydot.graph_from_dot_data(dag_sources)[0]
 
 for node in new_nodes_dict:
-    for parent in nodes_dict[node].parents:
+    for parent in new_nodes_dict[node].parents:
         edge = pydot.Edge(parent, node)
         resulting_graph.add_edge(edge)
 
