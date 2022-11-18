@@ -12,6 +12,7 @@ if len(sys.argv) != 2:
     print("SYNTAX ERROR: Usage: python bayes_induction.py [DATASET_CSV_FILE]", file=sys.stderr)
     exit(1)
 
+print(sys.argv[1])
 dataset_df = pandas.read_csv(sys.argv[1])
 size = len(dataset_df)
 
