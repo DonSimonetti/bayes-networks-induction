@@ -12,6 +12,7 @@
   - numpy
   - graphviz
   - pydot
+  - bnlearn
 
 - [dataset_generator.py](src/dataset_generator.py): questo è uno script che genera un dataset di grandezza arbitraria in formato CSV. Per eseguirlo bisogna che il pacchetto *bnlearn* sia installato (vedi [qui](https://pypi.org/project/bnlearn/)).
   Esempio:
